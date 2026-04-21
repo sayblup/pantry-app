@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiżarnia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>SPIŻARNIA</h1>
+        <button id="refreshBtn" class="btn-refresh">Odśwież</button>
+    </header>
+
+    <main>
+        <section id="pantrySection">
+            <h2>Spiżarnia</h2>
+            <input type="text" id="pantrySearch" placeholder="Wyszukaj produkt...">
+            <button id="addIngredientBtn" class="btn-primary">Dodaj do spiżarni</button>
+            
+            <div id="pantryList"></div>
+        </section>
+
+        <section id="recipesSection">
+            <h2>Przepisy</h2>
+            <input type="text" id="recipeSearch" placeholder="Wyszukaj przepis...">
+            
+            <div id="recipesList"></div>
+        </section>
+
+        <section id="depletedSection">
+            <h2>Skończyło się</h2>
+            <div id="depletedList"></div>
+        </section>
+    </main>
+
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Dodaj produkt</h3>
+            <form id="addIngredientForm">
+                <label>Nazwa produktu:</label>
+                <input type="text" id="ingredientName" required>
+                
+                <label>Ilość:</label>
+                <input type="number" id="ingredientQuantity" step="0.01" required>
+                
+                <label>Jednostka:</label>
+                <select id="ingredientUnit">
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="ml">ml</option>
+                    <option value="l">l</option>
+                </select>
+                
+                <button type="submit" class="btn-primary">Dodaj</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Edytuj produkt</h3>
+            <form id="editIngredientForm">
+                <input type="hidden" id="editIngredientId">
+                
+                <label>Ilość:</label>
+                <input type="number" id="editIngredientQuantity" step="0.01" required>
+                
+                <label>Jednostka:</label>
+                <select id="editIngredientUnit">
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="ml">ml</option>
+                    <option value="l">l</option>
+                </select>
+                
+                <button type="submit" class="btn-primary">Zapisz</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="restoreModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Przywróć do spiżarni</h3>
+            <form id="restoreIngredientForm">
+                <input type="hidden" id="restoreIngredientId">
+                <p id="restoreIngredientName"></p>
+                
+                <label>Ilość:</label>
+                <input type="number" id="restoreIngredientQuantity" step="0.01" required>
+                
+                <label>Jednostka:</label>
+                <select id="restoreIngredientUnit">
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="ml">ml</option>
+                    <option value="l">l</option>
+                </select>
+                
+                <button type="submit" class="btn-primary">Przywróć</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
