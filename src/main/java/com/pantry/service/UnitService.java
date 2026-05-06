@@ -22,6 +22,7 @@ public class UnitService {
             unitRepository.save(new Unit("kg", 1000.0, "g"));
             unitRepository.save(new Unit("ml", 1.0, "ml"));
             unitRepository.save(new Unit("l", 1000.0, "ml"));
+            unitRepository.save(new Unit("szt", 1.0, "szt"));
         }
     }
     
