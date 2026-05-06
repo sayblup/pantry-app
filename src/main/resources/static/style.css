@@ -403,3 +403,10 @@ input[type="text"] {
 .btn-add-row:hover {
     background-color: #d5dbdb;
 }
+
+.recipe-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
