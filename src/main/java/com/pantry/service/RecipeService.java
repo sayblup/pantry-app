@@ -30,7 +30,6 @@ public class RecipeService {
     @Transactional
     public Recipe createRecipe(String name, java.util.List<java.util.Map<String, Object>> ingredientsList) {
         Recipe recipe = new Recipe(name);
-        recipe = recipeRepository.save(recipe);
         if (ingredientsList != null) {
             for (java.util.Map<String, Object> ing : ingredientsList) {
                 String ingredientName = (String) ing.get("ingredientName");
@@ -39,7 +38,10 @@ public class RecipeService {
                 recipe.getIngredients().add(new RecipeIngredient(recipe, ingredientName, quantity, unit));
             }
         }
-        return recipeRepository.save(recipe);
+        Recipe saved = recipeRepository.save(recipe);
+        recipeRepository.flush();
+        return recipeRepository.findById(saved.getId())
+            .orElseThrow(() -> new RuntimeException("Recipe not found after save"));
     }
 
     @Transactional
