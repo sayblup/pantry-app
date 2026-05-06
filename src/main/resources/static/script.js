@@ -122,10 +122,7 @@ function renderRecipes() {
         <div class="recipe-item">
             <div class="recipe-header" onclick="toggleRecipe(${recipe.id})">
                 <span class="recipe-name">${recipe.name}</span>
-                <div class="recipe-header-actions">
-                    <button class="btn-delete-recipe" onclick="deleteRecipe(event, ${recipe.id})">Usuń</button>
-                    <span class="toggle-icon">▼</span>
-                </div>
+                <span class="toggle-icon">▼</span>
             </div>
             <div class="recipe-details" id="recipe-${recipe.id}">
                 ${recipe.ingredients && recipe.ingredients.length > 0
@@ -144,9 +141,12 @@ function renderRecipes() {
                     `).join('')
                     : '<p class="empty-info">Brak składników.</p>'
                 }
-                <button class="btn-execute" onclick="executeRecipe(${recipe.id})">
-                    Zatwierdź i odejmij ze spiżarni
-                </button>
+                <div class="recipe-actions">
+                    <button class="btn-execute" onclick="executeRecipe(${recipe.id})">
+                        Zatwierdź i odejmij ze spiżarni
+                    </button>
+                    <button class="btn-delete-recipe" onclick="deleteRecipe(event, ${recipe.id})">Usuń przepis</button>
+                </div>
             </div>
         </div>
     `).join('');
@@ -225,6 +225,7 @@ function addRecipeIngredientRow() {
             <option value="kg">kg</option>
             <option value="ml">ml</option>
             <option value="l">l</option>
+            <option value="szt">szt</option>
         </select>
         <button type="button" class="btn-remove-row" onclick="this.parentElement.remove()">✕</button>
     `;
@@ -409,12 +410,13 @@ async function executeRecipe(recipeId) {
 }
 
 function formatDate(dateString) {
-    const date = new Date(dateString);
+    const date = new Date(dateString + 'Z');
     return date.toLocaleString('pl-PL', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
     });
 }
