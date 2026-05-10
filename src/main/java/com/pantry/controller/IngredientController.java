@@ -10,39 +10,34 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/ingredients")
 public class IngredientController {
-    
+
     private final IngredientService ingredientService;
-    
+
     public IngredientController(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
     }
-    
+
     @GetMapping
     public List<Ingredient> getAllIngredients() {
         return ingredientService.getAll();
     }
-    
+
     @PostMapping
     public ResponseEntity<Ingredient> addIngredient(@RequestBody Map<String, Object> request) {
         String name = (String) request.get("name");
         Double quantity = ((Number) request.get("quantity")).doubleValue();
         String unit = (String) request.get("unit");
-        
-        Ingredient ingredient = ingredientService.addIngredient(name, quantity, unit);
-        return ResponseEntity.ok(ingredient);
+        String category = (String) request.getOrDefault("category", "Inne");
+        return ResponseEntity.ok(ingredientService.addIngredient(name, quantity, unit, category));
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<Ingredient> updateIngredient(
             @PathVariable Long id,
             @RequestBody Map<String, Object> request) {
-        Double quantity = ((Number) request.get("quantity")).doubleValue();
-        String unit = (String) request.get("unit");
-        
-        Ingredient ingredient = ingredientService.updateIngredient(id, quantity, unit);
-        return ResponseEntity.ok(ingredient);
+        return ResponseEntity.ok(ingredientService.updateIngredient(id, request));
     }
-    
+
     @DeleteMapping("/{id}/depleted")
     public ResponseEntity<Void> markAsDepleted(@PathVariable Long id) {
         ingredientService.markAsDepleted(id);
