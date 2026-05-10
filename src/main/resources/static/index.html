@@ -12,28 +12,73 @@
         <button id="refreshBtn" class="btn-refresh">Odśwież</button>
     </header>
 
+    <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="pantry">🏠 Spiżarnia</button>
+        <button class="tab-btn" data-tab="recipes">📋 Przepisy</button>
+        <button class="tab-btn" data-tab="shopping">🛒 Lista zakupów</button>
+        <button class="tab-btn" data-tab="spoonacular">🌐 Przepisy innych</button>
+        <button class="tab-btn" data-tab="depleted">❌ Skończyło się</button>
+    </nav>
+
     <main>
-        <section id="pantrySection">
-            <h2>Spiżarnia</h2>
-            <input type="text" id="pantrySearch" placeholder="Wyszukaj produkt...">
-            <button id="addIngredientBtn" class="btn-primary">Dodaj do spiżarni</button>
+        <!-- SPIŻARNIA -->
+        <section id="tab-pantry" class="tab-content active">
+            <div class="section-header">
+                <h2>Spiżarnia</h2>
+                <button id="addIngredientBtn" class="btn-primary">+ Dodaj produkt</button>
+            </div>
+            <div class="search-row">
+                <input type="text" id="pantrySearch" placeholder="Wyszukaj produkt...">
+                <select id="pantryFilterCategory">
+                    <option value="">Wszystkie kategorie</option>
+                </select>
+            </div>
             <div id="pantryList"></div>
         </section>
 
-        <section id="recipesSection">
-            <h2>Przepisy</h2>
+        <!-- PRZEPISY -->
+        <section id="tab-recipes" class="tab-content">
+            <div class="section-header">
+                <h2>Przepisy</h2>
+                <button id="addRecipeBtn" class="btn-primary">+ Dodaj przepis</button>
+            </div>
             <input type="text" id="recipeSearch" placeholder="Wyszukaj przepis...">
-            <button id="addRecipeBtn" class="btn-primary">Dodaj przepis</button>
             <div id="recipesList"></div>
         </section>
 
-        <section id="depletedSection">
+        <!-- LISTA ZAKUPÓW -->
+        <section id="tab-shopping" class="tab-content">
+            <div class="section-header">
+                <h2>Lista zakupów</h2>
+                <button id="addShoppingItemBtn" class="btn-primary">+ Dodaj pozycję</button>
+            </div>
+            <div class="shopping-actions">
+                <button id="moveToPantryBtn" class="btn-action-green">✓ Dodaj zaznaczone do spiżarni</button>
+                <button id="deleteCheckedBtn" class="btn-action-red">✕ Usuń zaznaczone</button>
+            </div>
+            <div id="shoppingList"></div>
+        </section>
+
+        <!-- SPOONACULAR -->
+        <section id="tab-spoonacular" class="tab-content">
+            <div class="section-header">
+                <h2>Przepisy innych</h2>
+            </div>
+            <div class="spoonacular-search-row">
+                <input type="text" id="spoonacularSearch" placeholder="Wyszukaj przepis (po angielsku)...">
+                <button id="spoonacularSearchBtn" class="btn-primary">Szukaj</button>
+            </div>
+            <div id="spoonacularResults"></div>
+        </section>
+
+        <!-- SKOŃCZYŁO SIĘ -->
+        <section id="tab-depleted" class="tab-content">
             <h2>Skończyło się</h2>
             <div id="depletedList"></div>
         </section>
     </main>
 
-    <!-- Modal: dodaj produkt -->
+    <!-- MODAL: Dodaj produkt -->
     <div id="addModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -41,50 +86,38 @@
             <form id="addIngredientForm">
                 <label>Nazwa produktu</label>
                 <input type="text" id="ingredientName" required>
-
+                <label>Kategoria</label>
+                <select id="ingredientCategory" class="category-select"></select>
                 <label>Ilość</label>
                 <input type="number" id="ingredientQuantity" step="0.01" required>
-
                 <label>Jednostka</label>
-                <select id="ingredientUnit">
-                    <option value="g">g</option>
-                    <option value="kg">kg</option>
-                    <option value="ml">ml</option>
-                    <option value="l">l</option>
-                    <option value="szt">szt</option>
-                </select>
-
+                <select id="ingredientUnit" class="unit-select"></select>
                 <button type="submit" class="btn-primary">Dodaj</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal: edytuj produkt -->
-    <div id="editModal" class="modal">
+    <!-- MODAL: Szczegóły / opis produktu -->
+    <div id="detailModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h3>Edytuj produkt</h3>
-            <form id="editIngredientForm">
-                <input type="hidden" id="editIngredientId">
-
+            <h3 id="detailModalTitle"></h3>
+            <form id="detailIngredientForm">
+                <input type="hidden" id="detailIngredientId">
+                <label>Kategoria</label>
+                <select id="detailIngredientCategory" class="category-select"></select>
                 <label>Ilość</label>
-                <input type="number" id="editIngredientQuantity" step="0.01" required>
-
+                <input type="number" id="detailIngredientQuantity" step="0.01" required>
                 <label>Jednostka</label>
-                <select id="editIngredientUnit">
-                    <option value="g">g</option>
-                    <option value="kg">kg</option>
-                    <option value="ml">ml</option>
-                    <option value="l">l</option>
-                    <option value="szt">szt</option>
-                </select>
-
+                <select id="detailIngredientUnit" class="unit-select"></select>
+                <label>Opis / notatki</label>
+                <textarea id="detailIngredientDescription" rows="4" placeholder="Np. przechowywać w lodówce, ulubiona marka..."></textarea>
                 <button type="submit" class="btn-primary">Zapisz</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal: przywróć ze skończonych -->
+    <!-- MODAL: Przywróć ze skończonych -->
     <div id="restoreModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -92,25 +125,16 @@
             <form id="restoreIngredientForm">
                 <input type="hidden" id="restoreIngredientId">
                 <p id="restoreIngredientName" class="restore-name"></p>
-
                 <label>Ilość</label>
                 <input type="number" id="restoreIngredientQuantity" step="0.01" required>
-
                 <label>Jednostka</label>
-                <select id="restoreIngredientUnit">
-                    <option value="g">g</option>
-                    <option value="kg">kg</option>
-                    <option value="ml">ml</option>
-                    <option value="l">l</option>
-                    <option value="szt">szt</option>
-                </select>
-
+                <select id="restoreIngredientUnit" class="unit-select"></select>
                 <button type="submit" class="btn-primary">Przywróć</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal: dodaj przepis -->
+    <!-- MODAL: Dodaj przepis -->
     <div id="addRecipeModal" class="modal">
         <div class="modal-content modal-wide">
             <span class="close">&times;</span>
@@ -118,14 +142,40 @@
             <form id="addRecipeForm">
                 <label>Nazwa przepisu</label>
                 <input type="text" id="recipeName" required>
-
                 <label>Składniki</label>
                 <div id="recipeIngredientsContainer"></div>
-
                 <button type="button" id="addRecipeIngredientBtn" class="btn-add-row">+ Dodaj składnik</button>
-
                 <button type="submit" class="btn-primary">Zapisz przepis</button>
             </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Dodaj do listy zakupów -->
+    <div id="addShoppingModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Dodaj do listy zakupów</h3>
+            <form id="addShoppingItemForm">
+                <label>Nazwa produktu</label>
+                <input type="text" id="shoppingItemName" required>
+                <label>Kategoria</label>
+                <select id="shoppingItemCategory" class="category-select"></select>
+                <label>Ilość</label>
+                <input type="number" id="shoppingItemQuantity" step="0.01" required>
+                <label>Jednostka</label>
+                <select id="shoppingItemUnit" class="unit-select"></select>
+                <button type="submit" class="btn-primary">Dodaj</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Podgląd przepisu Spoonacular -->
+    <div id="spoonacularDetailModal" class="modal">
+        <div class="modal-content modal-wide">
+            <span class="close">&times;</span>
+            <h3 id="spoonacularDetailTitle"></h3>
+            <div id="spoonacularDetailContent"></div>
+            <button id="importSpoonacularBtn" class="btn-primary" style="margin-top:15px;">Importuj do moich przepisów</button>
         </div>
     </div>
 
