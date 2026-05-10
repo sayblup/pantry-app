@@ -39,7 +39,7 @@ public class DepletedIngredientController {
         Double quantity = ((Number) request.get("quantity")).doubleValue();
         String unit = (String) request.get("unit");
         
-        ingredientService.addIngredient(depleted.getName(), quantity, unit);
+        ingredientService.addIngredient(depleted.getName(), quantity, unit, "Inne");
         depletedService.removeDepleted(id);
         
         return ResponseEntity.ok().build();
