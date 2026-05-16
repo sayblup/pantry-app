@@ -287,18 +287,16 @@ function renderShopping() {
 // ─── RENDER: SKOŃCZYŁO SIĘ ──────────────────────────────────────────────────
 
 function renderDepleted() {
-    const container = document.getElementById('depletedList');
-    if (depletedIngredients.length === 0) {
-        container.innerHTML = '<p class="empty-info">Lista jest pusta.</p>';
-        return;
-    }
     container.innerHTML = depletedIngredients.map(d => `
         <div class="depleted-item" onclick="openRestoreModal(${d.id}, '${d.name}')">
             <div class="depleted-info">
                 <div class="depleted-name">${d.name}</div>
                 <div class="depleted-date">${formatDate(d.dateAdded)}</div>
             </div>
-            <span class="restore-hint">kliknij, aby przywrócić</span>
+            <div class="depleted-actions">
+                <span class="restore-hint">kliknij, aby przywrócić</span>
+                <button class="btn-remove-small" style="margin-left:15px; font-size:1.2em;" onclick="deleteDepletedPermanently(event, ${d.id})" title="Usuń na stałe">🗑️</button>
+            </div>
         </div>
     `).join('');
 }
