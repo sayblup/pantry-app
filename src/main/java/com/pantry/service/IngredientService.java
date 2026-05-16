@@ -32,16 +32,18 @@ public class IngredientService {
         return ingredientRepository.findAll();
     }
 
-    @Transactional
+  @Transactional
     public Ingredient addIngredient(String name, Double quantity, String unit, String category) {
-        Optional<Ingredient> existing = ingredientRepository.findByNameIgnoreCase(name);
+        String formattedName = formatName(name); 
+        
+        Optional<Ingredient> existing = ingredientRepository.findByNameIgnoreCase(formattedName);
         if (existing.isPresent()) {
             Ingredient ingredient = existing.get();
             double converted = unitService.convert(quantity, unit, ingredient.getUnit());
             ingredient.setQuantity(ingredient.getQuantity() + converted);
             return ingredientRepository.save(ingredient);
         } else {
-            Ingredient newIngredient = new Ingredient(name, quantity, unit);
+            Ingredient newIngredient = new Ingredient(formattedName, quantity, unit);
             newIngredient.setCategory(category);
             return ingredientRepository.save(newIngredient);
         }
