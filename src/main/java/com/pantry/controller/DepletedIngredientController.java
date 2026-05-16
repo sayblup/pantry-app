@@ -44,4 +44,9 @@ public class DepletedIngredientController {
         
         return ResponseEntity.ok().build();
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePermanently(@PathVariable Long id) {
+        depletedService.removeDepleted(id);
+        return ResponseEntity.ok().build();
+    }
 }
