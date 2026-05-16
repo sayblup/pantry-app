@@ -474,8 +474,16 @@ async function addMissingToShopping(recipeId) {
     await post(`${API_URL}/shopping/batch`, missing);
     await loadShopping();
     alert(`Dodano ${missing.length} brakujących składników do listy zakupów.`);
+    
 }
-
+// Trwałe usunięcie z historii
+async function deleteDepletedPermanently(event, id) {
+    event.stopPropagation(); // Zapobiega otwarciu modala przywracania
+    if (!confirm('Czy na pewno chcesz usunąć ten element całkowicie z pamięci aplikacji?')) return;
+    
+    await fetch(`${API_URL}/depleted/${id}`, { method: 'DELETE' });
+    await loadDepleted();
+}
 // ─── LISTA ZAKUPÓW: AKCJE ────────────────────────────────────────────────────
 
 async function handleAddShoppingItem(e) {
