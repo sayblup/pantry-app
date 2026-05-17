@@ -769,11 +769,15 @@ async function openSpoonacularDetail(id, title) {
 
 async function importSpoonacularRecipe() {
     if (!spoonacularCurrentRecipe) return;
-    const ings = (spoonacularCurrentRecipe.extendedIngredients || []).map(i => ({
-        ingredientName: translateIngredient(i.name),
-        quantity: Math.round(i.amount * 100) / 100,
-        unit: mapUnit(i.unit) || 'szt'
-    }));
+    const ings = (spoonacularCurrentRecipe.extendedIngredients || []).map(i => {
+        const converted = processSpoonacularIngredient(i.amount, i.unit);
+        return {
+            ingredientName: translateIngredient(i.name),
+            quantity: Math.round(converted.amount * 100) / 100, // Zapisze przeliczoną wartość
+            unit: converted.unit // Zapisze prawidłową jednostkę (g, ml, szt itd.)
+        };
+    });
+    
     await post(`${API_URL}/recipes`, { name: spoonacularCurrentRecipe.title, ingredients: ings });
     closeModals();
     await loadRecipes();
