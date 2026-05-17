@@ -8,14 +8,170 @@ const CATEGORIES = [
 ];
 
 const UNITS = ['g', 'kg', 'ml', 'l', 'szt'];
-//tlumaczenie na sile
+
+//
 const TRANSLATIONS = {
-    'flour': 'Mąka', 'sugar': 'Cukier', 'water': 'Woda', 'salt': 'Sól', 'pepper': 'Pieprz',
-    'butter': 'Masło', 'milk': 'Mleko', 'egg': 'Jajko', 'eggs': 'Jajka', 'garlic': 'Czosnek',
-    'onion': 'Cebula', 'chicken': 'Kurczak', 'pork': 'Wieprzowina', 'beef': 'Wołowina',
-    'tomato': 'Pomidor', 'tomatoes': 'Pomidory', 'potato': 'Ziemniak', 'potatoes': 'Ziemniaki',
-    'cheese': 'Ser', 'oil': 'Olej', 'olive oil': 'Oliwa z oliwek', 'bread': 'Chleb',
-    'apple': 'Jabłko', 'lemon': 'Cytryna', 'carrot': 'Marchewka'
+  // vegetables
+  'carrot': 'Marchew',
+  'potato': 'Ziemniak',
+  'sweet potato': 'Batat',
+  'tomato': 'Pomidor',
+  'cucumber': 'Ogórek',
+  'lettuce': 'Sałata',
+  'cabbage': 'Kapusta',
+  'red cabbage': 'Czerwona kapusta',
+  'cauliflower': 'Kalafior',
+  'broccoli': 'Brokuł',
+  'celery': 'Seler naciowy',
+  'parsley root': 'Pietruszka korzeń',
+  'parsnip': 'Pasternak',
+  'bell pepper': 'Papryka',
+  'chili pepper': 'Papryczka chili',
+  'mushroom': 'Pieczarka',
+  'wild mushrooms': 'Grzyby leśne',
+  'pumpkin': 'Dynia',
+  'avocado': 'Awokado',
+  'olive': 'Oliwka',
+  'pickles': 'Ogórki kiszone',
+  'sauerkraut': 'Kapusta kiszona',
+
+  // fruits
+  'apple': 'Jabłko',
+  'banana': 'Banan',
+  'orange': 'Pomarańcza',
+  'lemon': 'Cytryna',
+  'lime': 'Limonka',
+  'pear': 'Gruszka',
+  'grape': 'Winogrono',
+  'strawberry': 'Truskawka',
+  'blueberry': 'Borówka',
+  'raspberry': 'Malina',
+  'blackberry': 'Jeżyna',
+  'cherry': 'Wiśnia',
+  'pineapple': 'Ananas',
+  'mango': 'Mango',
+  'kiwi': 'Kiwi',
+  'watermelon': 'Arbuz',
+  'peach': 'Brzoskwinia',
+  'plum': 'Śliwka',
+  'coconut': 'Kokos',
+  'dates': 'Daktyle',
+  'raisins': 'Rodzynki',
+
+  // meat & fish
+  'chicken': 'Kurczak',
+  'beef': 'Wołowina',
+  'pork': 'Wieprzowina',
+  'turkey': 'Indyk',
+  'bacon': 'Boczek',
+  'ham': 'Szynka',
+  'sausage': 'Kiełbasa',
+  'minced meat': 'Mięso mielone',
+  'veal': 'Cielęcina',
+  'lamb': 'Jagnięcina',
+
+  'salmon': 'Łosoś',
+  'tuna': 'Tuńczyk',
+  'cod': 'Dorsz',
+  'shrimp': 'Krewetki',
+  'prawns': 'Krewetki',
+  'crab': 'Krab',
+  'lobster': 'Homar',
+
+  // dairy & eggs
+  'milk': 'Mleko',
+  'cream': 'Śmietana',
+  'sour cream': 'Kwaśna śmietana',
+  'butter': 'Masło',
+  'yogurt': 'Jogurt',
+  'greek yogurt': 'Jogurt grecki',
+  'egg': 'Jajko',
+  'eggs': 'Jajka',
+  'cream cheese': 'Serek śmietankowy',
+  'cottage cheese': 'Twaróg',
+  'ricotta': 'Ricotta',
+  'blue cheese': 'Ser pleśniowy',
+
+  // grains & bakery
+  'rice': 'Ryż',
+  'brown rice': 'Brązowy ryż',
+  'pasta': 'Makaron',
+  'spaghetti': 'Spaghetti',
+  'noodles': 'Makaron noodles',
+  'bread': 'Chleb',
+  'baguette': 'Bagietka',
+  'bun': 'Bułka',
+  'flour': 'Mąka',
+  'whole wheat flour': 'Mąka pełnoziarnista',
+  'oats': 'Płatki owsiane',
+  'oatmeal': 'Owsianka',
+  'breadcrumbs': 'Bułka tarta',
+
+  // oils & fats
+  'olive oil': 'Oliwa z oliwek',
+  'sunflower oil': 'Olej słonecznikowy',
+  'vegetable oil': 'Olej roślinny',
+  'coconut oil': 'Olej kokosowy',
+
+  // spices & herbs
+  'salt': 'Sól',
+  'pepper': 'Pieprz',
+  'black pepper': 'Czarny pieprz',
+  'white pepper': 'Biały pieprz',
+  'oregano': 'Oregano',
+  'basil': 'Bazylia',
+  'thyme': 'Tymianek',
+  'rosemary': 'Rozmaryn',
+  'dill': 'Koper',
+  'parsley': 'Pietruszka',
+  'mint': 'Mięta',
+  'cinnamon': 'Cynamon',
+  'vanilla': 'Wanilia',
+  'bay leaf': 'Liść laurowy',
+  'cumin': 'Kmin rzymski',
+  'ginger': 'Imbir',
+
+  // sauces & condiments
+  'ketchup': 'Ketchup',
+  'mustard': 'Musztarda',
+  'mayonnaise': 'Majonez',
+  'soy sauce': 'Sos sojowy',
+  'fish sauce': 'Sos rybny',
+  'hot sauce': 'Ostry sos',
+  'barbecue sauce': 'Sos barbecue',
+  'tomato sauce': 'Sos pomidorowy',
+  'vinegar': 'Ocet',
+  'balsamic vinegar': 'Ocet balsamiczny',
+  'mustard sauce': 'Sos musztardowy',
+
+  // baking & sweets
+  'sugar': 'Cukier',
+  'brown sugar': 'Brązowy cukier',
+  'honey': 'Miód',
+  'yeast': 'Drożdże',
+  'baking powder': 'Proszek do pieczenia',
+  'vanilla sugar': 'Cukier wanilinowy',
+  'caramel': 'Karmel',
+
+  // nuts & seeds
+  'almonds': 'Migdały',
+  'walnuts': 'Orzechy włoskie',
+  'hazelnuts': 'Orzechy laskowe',
+  'cashews': 'Nerkowce',
+  'peanuts': 'Orzeszki ziemne',
+  'pistachios': 'Pistacje',
+  'sunflower seeds': 'Pestki słonecznika',
+  'pumpkin seeds': 'Pestki dyni',
+
+  // drinks
+  'coffee': 'Kawa',
+  'tea': 'Herbata',
+  'green tea': 'Zielona herbata',
+  'juice': 'Sok',
+  'orange juice': 'Sok pomarańczowy',
+  'sparkling water': 'Woda gazowana',
+
+
 };
 
 function translateIngredient(name) {
