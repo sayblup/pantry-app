@@ -755,7 +755,10 @@ async function openSpoonacularDetail(id, title) {
         document.getElementById('spoonacularDetailContent').innerHTML = `
             <p class="spoon-servings">Porcje: ${data.servings || '?'}</p>
             <ul class="spoon-ingredients">
-                ${ings.map(i => `<li>${translateIngredient(i.name)} — ${Math.round(i.amount * 100) / 100} ${mapUnit(i.unit) || i.unit}</li>`).join('')}
+                ${ings.map(i => {
+    const converted = processSpoonacularIngredient(i.amount, i.unit);
+    return `<li>${translateIngredient(i.name)} — ${Math.round(converted.amount * 100) / 100} ${converted.unit}</li>`;
+}).join('')}
             </ul>
             ${data.sourceUrl ? `<a href="${data.sourceUrl}" target="_blank" class="spoon-source">Otwórz oryginalny przepis ↗</a>` : ''}
         `;
