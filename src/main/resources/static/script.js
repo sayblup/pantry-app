@@ -589,7 +589,7 @@ async function openSpoonacularDetail(id, title) {
 async function importSpoonacularRecipe() {
     if (!spoonacularCurrentRecipe) return;
     const ings = (spoonacularCurrentRecipe.extendedIngredients || []).map(i => ({
-        ingredientName: i.name,
+        ingredientName: translateIngredient(i.name),
         quantity: Math.round(i.amount * 100) / 100,
         unit: mapUnit(i.unit) || 'szt'
     }));
