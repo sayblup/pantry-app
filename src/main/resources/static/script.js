@@ -8,7 +8,7 @@ const CATEGORIES = [
 ];
 
 const UNITS = ['g', 'kg', 'ml', 'l', 'szt'];
-
+//tlumaczenie na sile
 const TRANSLATIONS = {
     'flour': 'Mąka', 'sugar': 'Cukier', 'water': 'Woda', 'salt': 'Sól', 'pepper': 'Pieprz',
     'butter': 'Masło', 'milk': 'Mleko', 'egg': 'Jajko', 'eggs': 'Jajka', 'garlic': 'Czosnek',
