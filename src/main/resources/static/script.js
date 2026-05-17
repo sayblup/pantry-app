@@ -304,6 +304,13 @@ function renderShopping() {
 // ─── RENDER: SKOŃCZYŁO SIĘ ──────────────────────────────────────────────────
 
 function renderDepleted() {
+    const container = document.getElementById('depletedList');
+    
+    if (depletedIngredients.length === 0) {
+        container.innerHTML = '<p class="empty-info">Lista jest pusta.</p>';
+        return;
+    }
+
     container.innerHTML = depletedIngredients.map(d => `
         <div class="depleted-item" onclick="openRestoreModal(${d.id}, '${d.name}')">
             <div class="depleted-info">
