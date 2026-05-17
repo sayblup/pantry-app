@@ -9,6 +9,23 @@ const CATEGORIES = [
 
 const UNITS = ['g', 'kg', 'ml', 'l', 'szt'];
 
+const TRANSLATIONS = {
+    'flour': 'Mąka', 'sugar': 'Cukier', 'water': 'Woda', 'salt': 'Sól', 'pepper': 'Pieprz',
+    'butter': 'Masło', 'milk': 'Mleko', 'egg': 'Jajko', 'eggs': 'Jajka', 'garlic': 'Czosnek',
+    'onion': 'Cebula', 'chicken': 'Kurczak', 'pork': 'Wieprzowina', 'beef': 'Wołowina',
+    'tomato': 'Pomidor', 'tomatoes': 'Pomidory', 'potato': 'Ziemniak', 'potatoes': 'Ziemniaki',
+    'cheese': 'Ser', 'oil': 'Olej', 'olive oil': 'Oliwa z oliwek', 'bread': 'Chleb',
+    'apple': 'Jabłko', 'lemon': 'Cytryna', 'carrot': 'Marchewka'
+};
+
+function translateIngredient(name) {
+    if (!name) return '';
+    const lower = name.toLowerCase();
+    // Szukamy w słowniku
+    if (TRANSLATIONS[lower]) return TRANSLATIONS[lower];
+    // Jeśli brak w słowniku - stosujemy regułę wielkiej litery jako fallback (zostaje po angielsku, ale wygląda ładnie)
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+}
 let ingredients = [];
 let recipes = [];
 let depletedIngredients = [];
