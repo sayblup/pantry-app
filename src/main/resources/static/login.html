@@ -25,8 +25,8 @@
             <button type="submit">Zaloguj</button>
         </form>
     </div>
-    <script>
-            <script>
+
+        <script>
         // Pokazanie błędu, jeśli w URL jest ?error=true
         if (window.location.search.includes('error=true')) {
             document.getElementById('errorMsg').style.display = 'block';
@@ -40,13 +40,12 @@
 
             // Sprawdzamy czy wpisano "admin" w obu polach (lub w haśle "admin admin")
             if ((user === 'admin' && pass === 'admin') || pass === 'admin admin') {
-                e.preventDefault(); // Zatrzymujemy standardowe logowanie (żeby nie przeładowało strony)
+                e.preventDefault(); // Zatrzymujemy standardowe logowanie
                 // Przekierowujemy na YouTube
                 window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; 
             }
         });
-    </scrip
-        t>
+        </script>
     </script>
 </body>
 </html>
