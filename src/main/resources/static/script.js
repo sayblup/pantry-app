@@ -48,7 +48,7 @@ const TRANSLATIONS = {
   'margarine': 'Margaryna',
   'earth balance margarine': 'Margaryna',
 
-  'water': 'Woda'
+  'water': 'Woda',
 
   // fruits
   'apple': 'Jabłko',
