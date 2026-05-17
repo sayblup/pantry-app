@@ -34,6 +34,21 @@ const TRANSLATIONS = {
   'olive': 'Oliwka',
   'pickles': 'Ogórki kiszone',
   'sauerkraut': 'Kapusta kiszona',
+  'onion': 'Cebula',
+  'onions': 'Cebule',
+
+  'potato': 'Ziemniak',
+  'potatoes': 'Ziemniaki',
+
+  'salt': 'Sól',
+  'sea salt': 'Sól morska',
+
+  'soy milk': 'Mleko sojowe',
+
+  'margarine': 'Margaryna',
+  'earth balance margarine': 'Margaryna',
+
+  'water': 'Woda'
 
   // fruits
   'apple': 'Jabłko',
@@ -762,15 +777,29 @@ async function importSpoonacularRecipe() {
     alert(`Przepis "${spoonacularCurrentRecipe.title}" został dodany do Twoich przepisów.`);
 }
 
-function mapUnit(unit) {
-    if (!unit) return 'szt';
+// Nowa funkcja przeliczająca jednostki i ilości
+function processSpoonacularIngredient(amount, unit) {
+    if (!unit) return { amount: amount, unit: 'szt' };
     const u = unit.toLowerCase();
-    if (['g', 'gram', 'grams'].includes(u)) return 'g';
-    if (['kg', 'kilogram', 'kilograms'].includes(u)) return 'kg';
-    if (['ml', 'milliliter', 'milliliters', 'millilitre'].includes(u)) return 'ml';
-    if (['l', 'liter', 'liters', 'litre'].includes(u)) return 'l';
-    if (['', 'piece', 'pieces', 'serving', 'servings', 'unit', 'units'].includes(u)) return 'szt';
-    return null;
+
+    // Metryczne 
+    if (['g', 'gram', 'grams'].includes(u)) return { amount: amount, unit: 'g' };
+    if (['kg', 'kilogram', 'kilograms'].includes(u)) return { amount: amount, unit: 'kg' };
+    if (['ml', 'milliliter', 'milliliters', 'millilitre'].includes(u)) return { amount: amount, unit: 'ml' };
+    if (['l', 'liter', 'liters', 'litre'].includes(u)) return { amount: amount, unit: 'l' };
+
+    // Amerykańskie objętości 
+    if (['cup', 'cups', 'c'].includes(u)) return { amount: amount * 250, unit: 'ml' };
+    if (['tablespoon', 'tablespoons', 'tbsp', 'tbs'].includes(u)) return { amount: amount * 15, unit: 'ml' };
+    if (['teaspoon', 'teaspoons', 'tsp', 't'].includes(u)) return { amount: amount * 5, unit: 'ml' };
+    if (['fluid ounce', 'fluid ounces', 'fl oz'].includes(u)) return { amount: amount * 30, unit: 'ml' };
+
+    // Amerykańskie wagi 
+    if (['ounce', 'ounces', 'oz'].includes(u)) return { amount: amount * 28.35, unit: 'g' };
+    if (['pound', 'pounds', 'lb', 'lbs'].includes(u)) return { amount: amount * 453.6, unit: 'g' };
+
+  
+    return { amount: amount, unit: 'szt' };
 }
 
 // ─── UTILS ───────────────────────────────────────────────────────────────────
