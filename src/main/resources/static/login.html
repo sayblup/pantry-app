@@ -26,10 +26,27 @@
         </form>
     </div>
     <script>
+            <script>
         // Pokazanie błędu, jeśli w URL jest ?error=true
         if (window.location.search.includes('error=true')) {
             document.getElementById('errorMsg').style.display = 'block';
         }
+
+        // --- NASZ EASTER EGG ---
+        document.querySelector('form').addEventListener('submit', function(e) {
+            // Pobieramy wpisane wartości
+            const user = document.querySelector('input[name="username"]').value;
+            const pass = document.querySelector('input[name="password"]').value;
+
+            // Sprawdzamy czy wpisano "admin" w obu polach (lub w haśle "admin admin")
+            if ((user === 'admin' && pass === 'admin') || pass === 'admin admin') {
+                e.preventDefault(); // Zatrzymujemy standardowe logowanie (żeby nie przeładowało strony)
+                // Przekierowujemy na YouTube
+                window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; 
+            }
+        });
+    </scrip
+        t>
     </script>
 </body>
 </html>
