@@ -174,3 +174,51 @@ textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5p
 /* ── MISC ── */
 .empty-info { color: #aaa; font-style: italic; padding: 10px 0; }
 .restore-name { font-weight: bold; font-size: 1.05em; color: #2c3e50; margin-bottom: 14px; }
+
+/* ── KALENDARZ WIZUALNY ── */
+.calendar-controls {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px; background: white; padding: 12px 20px;
+    border-radius: 8px; border: 1px solid #e8e8e8;
+}
+.calendar-controls h3 { color: #2c3e50; font-size: 1.2em; text-transform: capitalize; }
+.calendar-weekdays {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    text-align: center; font-weight: bold; color: #7f8c8d;
+    margin-bottom: 8px; font-size: 0.9em;
+}
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+.calendar-day {
+    background: white; border: 1px solid #e8e8e8; border-radius: 6px;
+    min-height: 95px; padding: 8px; cursor: pointer;
+    display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform 0.1s, background 0.15s;
+}
+.calendar-day:hover { background: #f8f9fa; transform: scale(1.01); }
+.calendar-day.empty { background: #eef0f3; cursor: default; border: none; }
+.calendar-day.empty:hover { transform: none; background: #eef0f3; }
+
+/* Wyróżnienie dzisiejszego dnia */
+.calendar-day.today { border: 2px solid #27ae60; background: #ebf7ee; }
+.calendar-day.today .day-number { color: #27ae60; font-weight: bold; }
+
+.day-number { font-size: 0.9em; font-weight: 600; color: #555; }
+.day-preview-box { flex: 1; margin-top: 4px; overflow: hidden; }
+.day-preview-text {
+    font-size: 0.72em; color: #555; background: #f1f2f6;
+    padding: 2px 4px; border-radius: 3px; margin-bottom: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.day-preview-recipe {
+    font-size: 0.72em; color: white; background: #8e44ad;
+    padding: 2px 4px; border-radius: 3px; font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.day-indicators { display: flex; gap: 4px; font-size: 0.95em; justify-content: flex-end; }
+
+/* Responsywność dla smartfonów */
+@media (max-width: 600px) {
+    .calendar-day { min-height: 65px; padding: 4px; }
+    .day-preview-box { display: none; } 
+    .calendar-controls h3 { font-size: 1em; }
+}
