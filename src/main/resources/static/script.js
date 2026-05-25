@@ -364,7 +364,7 @@ function renderPantry() {
 
 function getPantryStatus(ingName, neededQty, neededUnit) {
     const found = ingredients.find(i => i.name.toLowerCase() === ingName.toLowerCase());
-    if (!found) return { have: 0, haveUnit: neededUnit, enough: false };
+    if (!found) return { have: 0, haveUnit: neededUnit, enough: false, diff: -neededQty };
 
     const haveBase = toBase(found.quantity, found.unit);
     const needBase = toBase(neededQty, neededUnit);
