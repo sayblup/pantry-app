@@ -68,7 +68,7 @@ public class IngredientService {
     public void markAsDepleted(Long id) {
         Ingredient ingredient = ingredientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ingredient not found"));
-        depletedService.addDepleted(ingredient.getName());
+        depletedService.addDepleted(ingredient.getName(), ingredient.getCategory());
         ingredientRepository.deleteById(id);
     }
 
