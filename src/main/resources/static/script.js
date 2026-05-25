@@ -203,6 +203,9 @@ let depletedIngredients = [];
 let shoppingItems = [];
 let spoonacularCurrentRecipe = null;
 
+let calendarEntries = [];
+let currentCalendarDate = new Date();
+
 // ─── INIT ───────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
