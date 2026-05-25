@@ -20,8 +20,8 @@ public class DepletedIngredientService {
     }
     
     @Transactional
-    public DepletedIngredient addDepleted(String name) {
-        DepletedIngredient depleted = new DepletedIngredient(name);
+    public DepletedIngredient addDepleted(String name, String category) {
+    DepletedIngredient depleted = new DepletedIngredient(name, category);
         return depletedRepository.save(depleted);
     }
     
