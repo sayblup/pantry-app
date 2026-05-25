@@ -16,7 +16,10 @@ public class DepletedIngredient {
     
     private LocalDateTime dateAdded;
     
-    public DepletedIngredient() {
+    public DepletedIngredient((String name, String category) {
+        this.name = name;
+        this.category = category;
+        
         this.dateAdded = LocalDateTime.now();
     }
     
@@ -48,4 +51,6 @@ public class DepletedIngredient {
     public void setDateAdded(LocalDateTime dateAdded) {
         this.dateAdded = dateAdded;
     }
+    public String getCategory() { return category; }
+public void setCategory(String category) { this.category = category; }
 }
