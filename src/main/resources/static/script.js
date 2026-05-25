@@ -232,6 +232,10 @@ function setupTabs() {
             document.querySelectorAll('.tab-content').forEach(s => s.classList.remove('active'));
             btn.classList.add('active');
             document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+
+            if (btn.dataset.tab === 'calendar') {
+                renderCalendar();
+            }
         });
     });
 }
@@ -264,12 +268,16 @@ function setupEventListeners() {
 
     document.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', closeModals));
     window.addEventListener('click', e => { if (e.target.classList.contains('modal')) closeModals(); });
+
+    document.getElementById('prevMonthBtn').addEventListener('click', () => changeMonth(-1));
+    document.getElementById('nextMonthBtn').addEventListener('click', () => changeMonth(1));
+    document.getElementById('calendarForm').addEventListener('submit', handleSaveCalendarEntry);
 }
 
 // ─── DATA LOADING ────────────────────────────────────────────────────────────
 
 async function loadAllData() {
-    await Promise.all([loadIngredients(), loadRecipes(), loadDepleted(), loadShopping()]);
+    await Promise.all([loadIngredients(), loadRecipes(), loadDepleted(), loadShopping(), loadCalendarEntries()]);
 }
 
 async function loadIngredients() {
@@ -833,4 +841,131 @@ function formatDate(dateString) {
 
 function escapeAttr(str) {
     return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+// ─── KALENDARZ ───────────────────────────────────────────────────────
+
+async function loadCalendarEntries() {
+    try {
+        const data = await fetchJSON(`${API_URL}/calendar`);
+        calendarEntries = Array.isArray(data) ? data : [];
+        if (document.getElementById('tab-calendar').classList.contains('active')) {
+            renderCalendar();
+        }
+    } catch { calendarEntries = []; }
+}
+
+function changeMonth(direction) {
+    currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
+    renderCalendar();
+}
+
+// Precyzyjne pobieranie dzisiejszej daty w strefie czasowej Polski/Warszawy (format YYYY-MM-DD)
+function getWarsawTodayStr() {
+    const d = new Date();
+    const formatter = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Warsaw', year: 'numeric', month: '2-digit', day: '2-digit' });
+    return formatter.format(d);
+}
+
+function renderCalendar() {
+    const grid = document.getElementById('calendarGrid');
+    const monthYearLabel = document.getElementById('calendarMonthYear');
+    
+    const year = currentCalendarDate.getFullYear();
+    const month = currentCalendarDate.getMonth();
+    
+    const monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
+    monthYearLabel.textContent = `${monthNames[month]} ${year}`;
+    
+    grid.innerHTML = '';
+    
+    const firstDay = new Date(year, month, 1);
+    let startDayIdx = firstDay.getDay() - 1; // Konwersja na styl europejski (0-Pn, 6-Nd)
+    if (startDayIdx === -1) startDayIdx = 6; 
+    
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    
+    // Generowanie pustych dni z poprzedniego miesiąca
+    for (let i = 0; i < startDayIdx; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'calendar-day empty';
+        grid.appendChild(emptyCell);
+    }
+    
+    const todayStr = getWarsawTodayStr();
+    
+    // Generowanie właściwych dni miesiąca
+    for (let day = 1; day <= totalDays; day++) {
+        const dayCell = document.createElement('div');
+        dayCell.className = 'calendar-day';
+        
+        const mStr = String(month + 1).padStart(2, '0');
+        const dStr = String(day).padStart(2, '0');
+        const dateStr = `${year}-${mStr}-${dStr}`;
+        
+        if (dateStr === todayStr) {
+            dayCell.classList.add('today');
+        }
+        
+        const entry = calendarEntries.find(e => e.date === dateStr);
+        
+        let indicatorsHtml = '';
+        let previewHtml = '<div class="day-preview-box">';
+        
+        if (entry) {
+            if (entry.note) {
+                indicatorsHtml += '<span title="Masz notatkę">📝</span>';
+                previewHtml += `<div class="day-preview-text">${entry.note}</div>`;
+            }
+            if (entry.recipe) {
+                indicatorsHtml += '<span title="Przypięty przepis">📌</span>';
+                previewHtml += `<div class="day-preview-recipe">🍽️ ${entry.recipe.name}</div>`;
+            }
+        }
+        previewHtml += '</div>';
+        
+        dayCell.innerHTML = `
+            <div class="day-number">${day}</div>
+            ${previewHtml}
+            <div class="day-indicators">${indicatorsHtml}</div>
+        `;
+        
+        dayCell.addEventListener('click', () => openCalendarDayModal(dateStr, entry));
+        grid.appendChild(dayCell);
+    }
+}
+
+function openCalendarDayModal(dateStr, entry) {
+    document.getElementById('calendarDate').value = dateStr;
+    document.getElementById('calendarModalTitle').textContent = `Plan na dzień: ${dateStr}`;
+    document.getElementById('calendarNote').value = entry && entry.note ? entry.note : '';
+    
+    const select = document.getElementById('calendarRecipeSelect');
+    // Pobieramy przepisy z pamięci aplikacji (zmiennej globalnej "recipes")
+    select.innerHTML = '<option value="">-- Brak przypiętego przepisu --</option>' + 
+        recipes.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+    
+    if (entry && entry.recipe) {
+        select.value = entry.recipe.id;
+    } else {
+        select.value = '';
+    }
+    
+    openModal('calendarModal');
+}
+
+async function handleSaveCalendarEntry(e) {
+    e.preventDefault();
+    const date = document.getElementById('calendarDate').value;
+    const note = document.getElementById('calendarNote').value.trim();
+    const recipeId = document.getElementById('calendarRecipeSelect').value;
+    
+    await post(`${API_URL}/calendar`, {
+        date: date,
+        note: note,
+        recipeId: recipeId ? parseInt(recipeId) : null
+    });
+    
+    closeModals();
+    await loadCalendarEntries();
 }
