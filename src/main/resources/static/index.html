@@ -14,6 +14,7 @@
 
     <nav class="tab-nav">
         <button class="tab-btn active" data-tab="pantry">🏠 Spiżarnia</button>
+        <button class="tab-btn" data-tab="calendar">📅 Kalendarz</button>
         <button class="tab-btn" data-tab="recipes">📖 Książka kucharska</button>
         <button class="tab-btn" data-tab="shopping">🛒 Lista zakupów</button>
         <button class="tab-btn" data-tab="spoonacular">🌐 Przepisy innych</button>
@@ -76,6 +77,21 @@
             <h2>Skończyło się</h2>
             <div id="depletedList"></div>
         </section>
+
+        <section id="tab-calendar" class="tab-content">
+    <div class="section-header">
+        <h2>Kalendarz planowania</h2>
+    </div>
+    <div class="calendar-controls">
+        <button id="prevMonthBtn" class="btn-refresh">&lt;</button>
+        <h3 id="calendarMonthYear"></h3>
+        <button id="nextMonthBtn" class="btn-refresh">&gt;</button>
+    </div>
+    <div class="calendar-weekdays">
+        <div>Pn</div><div>Wt</div><div>Śr</div><div>Cz</div><div>Pt</div><div>So</div><div>Nd</div>
+    </div>
+    <div id="calendarGrid" class="calendar-grid"></div>
+</section>
     </main>
 
     <!-- MODAL: Dodaj produkt -->
@@ -180,5 +196,25 @@
     </div>
 
     <script src="script.js"></script>
+
+    <div id="calendarModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="calendarModalTitle">Plan na dzień</h3>
+        <form id="calendarForm">
+            <input type="hidden" id="calendarDate">
+            
+            <label>Twoja notatka</label>
+            <textarea id="calendarNote" rows="3" placeholder="Wpisz plany..."></textarea>
+            
+            <label>Przypnij przepis z Książki Kucharskiej</label>
+            <select id="calendarRecipeSelect" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 12px;">
+                <option value="" Brak przypiętego przepisu /option>
+            </select>
+            
+            <button type="submit" class="btn-primary" style="width:100%;">Zapisz</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
