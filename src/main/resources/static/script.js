@@ -192,10 +192,8 @@ const TRANSLATIONS = {
 function translateIngredient(name) {
     if (!name) return '';
     const lower = name.toLowerCase();
-    // Szukamy w słowniku
-    if (TRANSLATIONS[lower]) return TRANSLATIONS[lower];
-    // Jeśli brak w słowniku - stosujemy regułę wielkiej litery jako fallback (zostaje po angielsku, ale wygląda ładnie)
-    return lower.charAt(0).toUpperCase() + lower.slice(1);
+      if (TRANSLATIONS[lower]) return TRANSLATIONS[lower];
+        return lower.charAt(0).toUpperCase() + lower.slice(1);
 }
 let ingredients = [];
 let recipes = [];
@@ -206,7 +204,7 @@ let spoonacularCurrentRecipe = null;
 let calendarEntries = [];
 let currentCalendarDate = new Date();
 
-// ─── INIT ───────────────────────────────────────────────────────────────────
+// ─── INIT ──────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
     populateSelects();
