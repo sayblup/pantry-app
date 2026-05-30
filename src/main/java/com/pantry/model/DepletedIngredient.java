@@ -14,7 +14,13 @@ public class DepletedIngredient {
     @Column(nullable = false)
     private String name;
     
+    private String category;
+    
     private LocalDateTime dateAdded;
+    
+
+    public DepletedIngredient() {
+    }
     
     public DepletedIngredient(String name, String category) {
         this.name = name;
@@ -27,29 +33,15 @@ public class DepletedIngredient {
         this.dateAdded = LocalDateTime.now();
     }
     
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
     
-    public String getName() {
-        return name;
-    }
+    public LocalDateTime getDateAdded() { return dateAdded; }
+    public void setDateAdded(LocalDateTime dateAdded) { this.dateAdded = dateAdded; }
     
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public LocalDateTime getDateAdded() {
-        return dateAdded;
-    }
-    
-    public void setDateAdded(LocalDateTime dateAdded) {
-        this.dateAdded = dateAdded;
-    }
     public String getCategory() { return category; }
-public void setCategory(String category) { this.category = category; }
+    public void setCategory(String category) { this.category = category; }
 }
