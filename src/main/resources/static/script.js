@@ -967,6 +967,7 @@ async function handleSaveCalendarEntry(e) {
     
     closeModals();
     await loadCalendarEntries();
+    }
     // ─── NASA APOD ───────────────────────────────────────────────────────────────
 async function loadNasaApod() {
     const content = document.getElementById('nasaApodContent');
@@ -996,7 +997,5 @@ async function loadNasaApod() {
         }
     } catch (error) {
         content.innerHTML = `<p class="empty-info">Nie udało się pobrać zdjęcia z NASA.</p>`;
-    }
-}
-    
+    }  
 }
