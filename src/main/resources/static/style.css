@@ -221,7 +221,8 @@ textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5p
     .calendar-day { min-height: 65px; padding: 4px; }
     .day-preview-box { display: none; } 
     .calendar-controls h3 { font-size: 1em; }
-    /* ── NASA APOD ── */
+}
+/* ── NASA APOD ── */
 .nasa-apod-container {
     background: white; 
     border: 1px solid #e8e8e8; 
@@ -247,5 +248,4 @@ textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5p
     margin-top: 12px;
     text-align: justify; 
     line-height: 1.4;
-}
 }
