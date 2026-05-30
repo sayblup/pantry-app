@@ -211,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTabs();
     setupEventListeners();
     loadAllData();
+    loadNasaApod();
 });
 
 function populateSelects() {
