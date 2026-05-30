@@ -974,14 +974,13 @@ async function loadNasaApod() {
     if (!content) return;
     
     try {
-        // Używamy "DEMO_KEY", co wystarcza do podstawowych zapytań (limit to ok. 50 na IP / godzinę). 
-        const response = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+        
+        const response = await fetch(`${API_URL}/nasa/apod`);
         const data = await response.json();
         
         const titleEl = document.getElementById('nasaApodTitle');
         if (titleEl) titleEl.textContent = `NASA: ${data.title}`;
         
-        // NASA czasami dodaje filmy na APOD (np. z YouTube), warto to obsłużyć
         if (data.media_type === 'image') {
             content.innerHTML = `
                 <img src="${data.url}" alt="${data.title}" class="nasa-apod-image">
