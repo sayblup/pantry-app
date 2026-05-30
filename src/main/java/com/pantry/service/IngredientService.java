@@ -22,6 +22,7 @@ public class IngredientService {
         this.unitService = unitService;
         this.depletedService = depletedService;
     }
+
     private String formatName(String name) {
         if (name == null || name.trim().isEmpty()) return name;
         name = name.trim();
@@ -32,7 +33,7 @@ public class IngredientService {
         return ingredientRepository.findAll();
     }
 
-  @Transactional
+    @Transactional
     public Ingredient addIngredient(String name, Double quantity, String unit, String category) {
         String formattedName = formatName(name); 
         
@@ -80,7 +81,8 @@ public class IngredientService {
             double converted = unitService.convert(quantity, unit, ingredient.getUnit());
             double newQuantity = ingredient.getQuantity() - converted;
             if (newQuantity <= 0) {
-               depletedService.addDepleted(ingredient.getName(), ingredient.getCategory());
+                // TUTAJ BYŁ BŁĄD - Teraz przekazuje dwa argumenty
+                depletedService.addDepleted(ingredient.getName(), ingredient.getCategory());
                 ingredientRepository.delete(ingredient);
             } else {
                 ingredient.setQuantity(newQuantity);
