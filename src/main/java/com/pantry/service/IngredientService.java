@@ -80,7 +80,7 @@ public class IngredientService {
             double converted = unitService.convert(quantity, unit, ingredient.getUnit());
             double newQuantity = ingredient.getQuantity() - converted;
             if (newQuantity <= 0) {
-                depletedService.addDepleted(ingredient.getName());
+               depletedService.addDepleted(ingredient.getName(), ingredient.getCategory());
                 ingredientRepository.delete(ingredient);
             } else {
                 ingredient.setQuantity(newQuantity);
