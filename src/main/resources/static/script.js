@@ -966,4 +966,36 @@ async function handleSaveCalendarEntry(e) {
     
     closeModals();
     await loadCalendarEntries();
+    // ─── NASA APOD ───────────────────────────────────────────────────────────────
+async function loadNasaApod() {
+    const content = document.getElementById('nasaApodContent');
+    if (!content) return;
+    
+    try {
+        // Używamy "DEMO_KEY", co wystarcza do podstawowych zapytań (limit to ok. 50 na IP / godzinę). 
+        const response = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+        const data = await response.json();
+        
+        const titleEl = document.getElementById('nasaApodTitle');
+        if (titleEl) titleEl.textContent = `NASA: ${data.title}`;
+        
+        // NASA czasami dodaje filmy na APOD (np. z YouTube), warto to obsłużyć
+        if (data.media_type === 'image') {
+            content.innerHTML = `
+                <img src="${data.url}" alt="${data.title}" class="nasa-apod-image">
+                <div class="nasa-apod-desc">${data.explanation}</div>
+            `;
+        } else if (data.media_type === 'video') {
+            content.innerHTML = `
+                <iframe src="${data.url}" frameborder="0" allow="fullscreen" class="nasa-apod-image" style="width: 100%; aspect-ratio: 16/9;"></iframe>
+                <div class="nasa-apod-desc">${data.explanation}</div>
+            `;
+        } else {
+            content.innerHTML = `<p class="empty-info">Brak podglądu na dziś.</p>`;
+        }
+    } catch (error) {
+        content.innerHTML = `<p class="empty-info">Nie udało się pobrać zdjęcia z NASA.</p>`;
+    }
+}
+    
 }
