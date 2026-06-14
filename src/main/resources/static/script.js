@@ -968,7 +968,56 @@ async function handleSaveCalendarEntry(e) {
     closeModals();
     await loadCalendarEntries();
     }
-    // ─── NASA APOD ───────────────────────────────────────────────────────────────
+// --- terminal EG
+let gameSessionId = null;
+
+document.getElementById('secretEasterEggBtn').addEventListener('click', () => {
+    document.getElementById('gameTerminalModal').classList.add('active');
+    if (!gameSessionId) {
+        gameSessionId = crypto.randomUUID();
+        sendGameCommand("start");
+    }
+    setTimeout(() => document.getElementById('gameInput').focus(), 100);
+});
+
+document.getElementById('closeGameTerminal').addEventListener('click', () => {
+    document.getElementById('gameTerminalModal').classList.remove('active');
+});
+
+document.getElementById('gameInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        const cmd = this.value.trim();
+        if (cmd) {
+            appendTerminal(`\n> ${cmd}`, true);
+            sendGameCommand(cmd);
+        }
+        this.value = '';
+    }
+});
+
+async function sendGameCommand(command) {
+    try {
+        const res = await fetch('/api/game/command', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId: gameSessionId, command: command })
+        });
+        const data = await res.json();
+        appendTerminal(data.output, false);
+    } catch (err) {
+        appendTerminal("Błąd połączenia z serwerem gry.", false);
+    }
+}
+
+function appendTerminal(text, isCommand) {
+    const outputDiv = document.getElementById('gameOutput');
+    const span = document.createElement('span');
+    span.style.color = isCommand ? '#ffffff' : '#FCA329';
+    span.textContent = text + "\n\n";
+    outputDiv.appendChild(span);
+    outputDiv.scrollTop = outputDiv.scrollHeight;
+}
+    //NASA 
 async function loadNasaApod() {
     const content = document.getElementById('nasaApodContent');
     if (!content) return;
