@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>SPIŻARNIA</h1>
+        <h1 id="secretEasterEggBtn" style="cursor: pointer;" title="???">SPIŻARNIA</h1>
         <button id="refreshBtn" class="btn-refresh">Odśwież</button>
     </header>
 
@@ -200,7 +200,17 @@
             <button id="importSpoonacularBtn" class="btn-primary" style="margin-top:15px;">Importuj do moich przepisów</button>
         </div>
     </div>
-
+<div id="gameTerminalModal" class="modal" style="z-index: 9999;">
+    <div class="modal-content" style="background: rgb(132, 137, 148); width: 80%; max-width: 800px; height: 70vh; display: flex; flex-direction: column; border: 2px solid #FCA329; border-radius: 0;">
+        <span class="close" id="closeGameTerminal" style="color: #FCA329;">&times;</span>
+        <h3 style="color: #FCA329; font-family: monospace; margin-top:0;">Terminal Sklepowy v1.0</h3>
+        <div id="gameOutput" style="flex: 1; overflow-y: auto; white-space: pre-wrap; color: #FCA329; font-family: 'Courier New', Courier, monospace; margin-bottom: 10px; padding-right: 10px; font-size: 15px;"></div>
+        <div style="display: flex;">
+            <span style="color: #FCA329; font-family: monospace; margin-right: 10px; font-size: 16px;">></span>
+            <input type="text" id="gameInput" style="background: rgb(100, 105, 115); color: #FCA329; border: 1px solid #FCA329; padding: 5px; flex: 1; font-family: 'Courier New', Courier, monospace; font-size: 16px; outline: none;" autocomplete="off" placeholder="Wpisz komendę...">
+        </div>
+    </div>
+</div>
     <script src="script.js"></script>
 
     <div id="calendarModal" class="modal">
