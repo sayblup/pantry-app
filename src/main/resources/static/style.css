@@ -193,6 +193,7 @@ textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5p
     min-height: 95px; padding: 8px; cursor: pointer;
     display: flex; flex-direction: column; justify-content: space-between;
     transition: transform 0.1s, background 0.15s;
+    min-width: 0; /* DODANE: Zapobiega rozpychaniu kolumny przez długi tekst */
 }
 .calendar-day:hover { background: #f8f9fa; transform: scale(1.01); }
 .calendar-day.empty { background: #eef0f3; cursor: default; border: none; }
@@ -207,15 +208,26 @@ textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5p
 .day-preview-text {
     font-size: 0.72em; color: #555; background: #f1f2f6;
     padding: 2px 4px; border-radius: 3px; margin-bottom: 2px;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    /* ZMIENIONE: Zawijanie do max 2 linii */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
 }
 .day-preview-recipe {
     font-size: 0.72em; color: white; background: #8e44ad;
     padding: 2px 4px; border-radius: 3px; font-weight: 500;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    /* ZMIENIONE: Zawijanie do max 2 linii */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
 }
 .day-indicators { display: flex; gap: 4px; font-size: 0.95em; justify-content: flex-end; }
-
 /* Responsywność dla smartfonów */
 @media (max-width: 600px) {
     .calendar-day { min-height: 65px; padding: 4px; }
