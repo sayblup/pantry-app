@@ -3,6 +3,7 @@ package com.pantry.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -23,6 +24,11 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login.html", "/style.css", "/script.js").permitAll()
+                
+                .requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "GUEST")
+                
+                .requestMatchers("/api/**").hasRole("ADMIN")
+                
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -47,14 +53,28 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(
-            @Value("${pantry.username:admin}") String username,
-            @Value("${pantry.password}") String password,
+            
+            @Value("${pantry.username:admin}") String adminUsername,
+            @Value("${pantry.password}") String adminPassword,
+            
+            
+            @Value("${pantry.test.username:test}") String testUsername,
+            @Value("${pantry.test.password:test}") String testPassword,
+            
             PasswordEncoder encoder) {
-        UserDetails user = User.builder()
-                .username(username)
-                .password(encoder.encode(password))
-                .roles("USER")
+
+        UserDetails admin = User.builder()
+                .username(adminUsername)
+                .password(encoder.encode(adminPassword))
+                .roles("ADMIN") 
                 .build();
-        return new InMemoryUserDetailsManager(user);
+
+        UserDetails guest = User.builder()
+                .username(testUsername)
+                .password(encoder.encode(testPassword))
+                .roles("GUEST") 
+                .build();
+
+        return new InMemoryUserDetailsManager(admin, guest);
     }
 }
